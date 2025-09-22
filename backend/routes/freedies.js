@@ -4,10 +4,14 @@ const Freedy = require('../models/FreedyModel');
 const router = express.Router();
 
 // GET all freedies
-router.get('/', (req, res) => {
-  res.json({
-    message: 'GET all freedies'
-  })
+router.get('/', async (req, res) => {
+  try {
+    const freedies = await Freedy.find({})
+
+    res.status(200).json(freedies);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 })
 
 // GET a single freedy
