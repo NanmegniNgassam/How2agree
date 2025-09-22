@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const Freedy = require('../models/FreedyModel');
 
 const router = express.Router();
 
@@ -17,10 +18,21 @@ router.get('/:id', (req, res) => {
 })
 
 // POST a new freedy
-router.post('/', (req, res) => {
-  res.json({
-    message: 'POST a new freedy'
-  })
+router.post('/', async (req, res) => {
+  const { title, content, votes } = req.body;
+
+  try {
+    const freedy = await Freedy.create({
+      title,
+      content,
+      votes,
+      likes: []
+    });
+
+    res.status(200).json(freedy);
+  } catch (error) {
+    res.status(500).json({ error: error.message })
+  }
 })
 
 // DELETE a single freedy
