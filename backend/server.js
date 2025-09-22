@@ -1,8 +1,14 @@
 require('dotenv').config();
+
+
 const express = require('express');
+const freedyRoutes = require('./routes/freedies');
 
 // create the express app
 const app = express();
+
+// middlewares
+app.use(express.json());
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
@@ -11,11 +17,7 @@ app.use((req, res, next) => {
 })
 
 // routes
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to my new app',
-  })
-})
+app.use('/api/freedies', freedyRoutes);
 
 // listen for requests
 app.listen(process.env.PORT, () => {
